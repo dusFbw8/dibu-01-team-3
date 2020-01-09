@@ -1,16 +1,13 @@
 import React, {Component} from 'react';
-import Userlist from "./userlist"
+import {Link} from "react-router-dom"
 class  Home extends Component {
-    state = {  }
     render() { 
-        const {userList,editHandler,deleteHandler,updateHandler} = this.props;
-        return ( <div className="App">
-        <Userlist userList={userList}
-                  editHandler={editHandler}
-                  deleteHandler={deleteHandler}
-                  updateHandler={updateHandler}
-        />
-      </div> );
+        return ( 
+        <div className="App">
+          <h1>Home Page</h1>
+          <Link to="/userlist">User List</Link>
+          </div>
+       );
     }
 }
  

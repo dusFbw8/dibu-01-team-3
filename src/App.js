@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import Home from './components/userlist';
-import {BrowserRouter as Router,Switch,Route} from "react-router-dom";
-import {IndexRoute} from "react-router";
+import Home from './components/home';
+import Userlist from './components/userlist';
+import {BrowserRouter as Router,Switch,Route,Link} from "react-router-dom";
 import EditList from './components/editlist'
 
 class App extends Component {
@@ -12,25 +12,26 @@ class App extends Component {
     list:[
       {userId:'bilal',
       email:'123@123.com',
-      group:['admin','teacher']
+      group:[{Student:false}, {Trainer:true}, {Managment:true}, {Visitor:true}]
       },
       {userId:"ather",
        email:"testing@testing.com",
-       group:["student", "lerner"] },
+       group:[{Student:true}, {Trainer:false}, {Managment:false}, {Visitor:false}] },
 
        {userId:"ahmad",
        email:"testing@testing.com",
-       group:["student", "lerner"] },
+       group:[{Student:false}, {Trainer:false}, {Managment:false}, {Visitor:true}] },
 
        {userId:"ali",
        email:"testing@testing.com",
-       group:["student", "lerner"] }],
+       group:[{Student:true}, {Trainer:true}, {Managment:false}, {Visitor:true}] }],
 
-    error:['userId is taken'],
-    path:"/"}
+    error:['userId is taken']
+  }
+
 
 editHandler=(target)=>{
-  this.setState({path:"/editlist"})
+
 
 }
 
@@ -47,24 +48,22 @@ updateHandler = ()=>{
 render(){
   return (
     <Router>
-    
-      {/* A <Switch> looks through its children <Route>s and
-          renders the first one that matches the current URL. */}
-      <Switch>
-         <Route path="this.state.path">
-          <EditList />
-        </Route>
-        {/*
-        <Route path="/users">
-          <Users />
-        </Route> */}
-        <IndexRoute>
-          <Home userList={this.state.list}
+           <Switch>
+            <Route path="/" exact>
+              <Home/>
+             </Route>
+
+            <Route path="/userlist" component= {()=><Userlist 
+                userList={this.state.list}
                   editHandler={this.editHandler}
                   deleteHandler={this.deleteHandler}
-                  updateHandler={this.updateHandler}/>
-        </IndexRoute>
-      </Switch>
+                  updateHandler={this.updateHandler}/>} />
+                
+
+            <Route path="/editlist/:id" component={EditList} />
+              
+
+          </Switch>     
   </Router>
     
   );

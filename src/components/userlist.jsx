@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Button} from 'react-bootstrap';
+import {Link} from "react-router-dom"
 
 class Userlist extends Component {
   
@@ -27,8 +28,15 @@ class Userlist extends Component {
                 <td>{data.group.toString()}</td>
                 <td><Button className="btn btn-danger"
                             onClick={()=>deleteHandler(data)}>Delete</Button></td>
-                <td><Button className="btn btn-warning"
-                            onClick={()=>editHandler(data)}>Edit</Button></td>
+          
+                <td>
+                  
+                    <Button className="btn btn-warning"
+                            onClick={()=>editHandler(data)}>
+                            <Link to={{pathname:`/editlist/${data.userId}`,
+                            state:{ 
+                              name:data
+                            }}}>Edit</Link></Button></td>
                 
 
                 </tr>) }
