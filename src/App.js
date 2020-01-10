@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import './App.css';
 import Home from './components/home';
 import Userlist from './components/userlist';
@@ -12,27 +12,27 @@ class App extends Component {
     list:[
       {userId:'bilal',
       email:'123@123.com',
-      group:[{Student:false}, {Trainer:true}, {Managment:true}, {Visitor:true}]
+      group:[ "Trainer" ,"Managment", "Visitor"]
       },
       {userId:"ather",
        email:"testing@testing.com",
-       group:[{Student:true}, {Trainer:false}, {Managment:false}, {Visitor:false}] },
+       group:["Student", "Trainer" ,"Managment"] },
 
        {userId:"ahmad",
        email:"testing@testing.com",
-       group:[{Student:false}, {Trainer:false}, {Managment:false}, {Visitor:true}] },
+       group:["Student", "Trainer" ,"Visitor"] },
 
        {userId:"ali",
        email:"testing@testing.com",
-       group:[{Student:true}, {Trainer:true}, {Managment:false}, {Visitor:true}] }],
+       group:["Student" ,"Managment", "Visitor"]}
+      ],
 
-    error:['userId is taken']
+    error:['userId is taken'],
+    userGroups:["Student", "Trainer" ,"Managment", "Visitor"]
   }
 
-
-editHandler=(target)=>{
-
-
+editHandler=(data)=>{
+  console.log("data from edithandler",data)
 }
 
 deleteHandler = (target)=>{
@@ -42,8 +42,15 @@ deleteHandler = (target)=>{
   list=list.filter((list)=>list!==target)
   this.setState({list})
 }
-updateHandler = ()=>{
+updateHandler = (event)=>{
 
+  event.preventDefault();
+  console.log(event.email)
+ 
+
+}
+changeHandler=(target)=>{
+  console.log("change handler called", target)
 }
 render(){
   return (
@@ -53,16 +60,21 @@ render(){
               <Home/>
              </Route>
 
-            <Route path="/userlist" component= {()=><Userlist 
-                userList={this.state.list}
+            <Route path="/userlist" component= {()=>
+              <Userlist 
+                  userList={this.state.list}
                   editHandler={this.editHandler}
                   deleteHandler={this.deleteHandler}
                   updateHandler={this.updateHandler}/>} />
                 
 
-            <Route path="/editlist/:id" component={EditList} />
+            <Route path="/editlist/:id" render={(props)=>
+              <EditList
+                {...props}
+                updateHandler={this.updateHandler}
+                changeHandler={this.changeHandler}
+                userGroups={this.state.userGroups}/>} />
               
-
           </Switch>     
   </Router>
     

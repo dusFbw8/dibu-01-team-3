@@ -1,30 +1,33 @@
 import React, {Component} from 'react';
-import { Form , Col, Button} from 'react-bootstrap';
+import { Form , Button} from 'react-bootstrap';
 
 class EditList extends Component {
 
- 
     render() { 
+        console.log(this.props)
         const target = this.props.location.state.name
-        console.log(target)
+        const userGroups = this.props.userGroups
 
         return ( <div>
             <h1>Editing {this.props.match.params.id}</h1>
-            <Form>
+            <Form onSubmit={this.props.updateHandler} method="post" >
             <Form.Group controlId="formBasicName">
             <Form.Label>UserId</Form.Label>
-            <Form.Control type="text" placeholder={target.userId} />
+            <Form.Control type="text" name="userId" placeholder={target.userId} onChange={this.props.changeHandler} />
             </Form.Group>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder={target.email} />
+              <Form.Control type="email" name="email" placeholder={target.email}  onChange={this.props.changeHandler}/>
             </Form.Group>
-            {target.group.map((group)=><Form.Check 
-                                        type="checkbox"
-                                        label={Object.keys(group).toString()}
-                                        /*{(group)[(Object.keys(group).toString())]? "checked" : null}*/    />)}
+            {userGroups.map((value, index)=>
+                        <Form.Check 
+                            onChange={this.props.changeHandler}
+                            key={index}
+                            type="checkbox"
+                            label={value}
+                            defaultChecked={target.group.includes(value)}    />)}
             
-        <Button variant="primary" type="submit">
+        <Button type="submit">
           Update
         </Button>
 </         Form>
